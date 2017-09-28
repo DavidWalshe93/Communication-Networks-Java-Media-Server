@@ -1,0 +1,490 @@
+HTTP/1.1 200 OK
+HOST: localhost
+Content-Type: text/html
+Content-Length: 100000
+Connection: keep-alive
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Music Player</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        /* Note: Try to remove the following lines to see the effect of CSS positioning */
+        .affix {
+            top: 20px;
+        }
+    </style>
+</head>
+<body onload="onpageload()">
+<script>
+    var songsDone = [];
+    function onpageload(){
+        var size = document.getElementById('musicTable').rows.length;
+        for(var i = 0; i < size - 1; i++)
+        {
+            songsDone[i] = 0;
+        }
+    }
+</script>
+<div class="container-fluid">
+    <audio id="music" autoplay="1" onended="mediaEnded()">
+        <source src="" type="audio/mp3">
+        Your browser does not support HTML5 audio.
+    </audio>
+    <div class="jumbotron text-center">
+        <h1>Music Player</h1>
+    </div>
+    <nav class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">WebSiteName</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="http://localhost:8777/link_index_IN.html">Home</a></li>
+                <li><a href="http://localhost:8777/link_gallery_Nature.html">Gallery</a></li>
+                <li class="active"><a href="http://localhost:8777/link_music_player.html">Music Player</a></li>
+                <li><a href="http://localhost:8777/link_theatre.html">Theatre</a></li>
+                <li><a href="http://localhost:8777/link_upload.html">Upload</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://localhost:8777/link_manage_account.html"><span class="glyphicon glyphicon-user"></span> Manage Account</a></li>
+                <li><a href="http://localhost:8777/link_index_OUT.html"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <br>
+    <nav class="navbar navbar-inverse" data-spy="affix" data-offset-top="200">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" id="songName" href="#">Music Controls</a>
+            </div>
+        <ul class="nav navbar-nav">
+            <div class="progress">
+                <div id="durationBar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"  style="width:100%"></div>
+            </div>
+
+            <div class="btn-group btn-group-justified">
+                <button type="button" id="playBtn" class="btn btn-active" onclick="play()">Play</button>
+                <button type="button" id="pauseBtn" class="btn btn-active" onclick="pause()">Pause</button>
+                <button type="button" id="rewindBtn" class="btn btn-active" onclick="musicSeek(0)">Rewind</button>
+                <button type="button" id="seekBtn" class="btn btn-active" onclick="musicSeek(1)">Step</button>
+                <button type="button" id="loopBtn" class="btn btn-active" onclick="loop(1)">Loop</button>
+                <button type="button" id="shuffleBtn" class="btn btn-active" onclick="shuffle(1)">Shuffle</button>
+            </div>
+        </ul>
+    </nav>
+    <div class="table-responsive">
+        <table class="table" id="musicTable">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Song</th>
+                <th>Artist</th>
+                <th>Duration</th>
+            </tr>
+            </thead>
+            <tbody>
+				<tr>
+					<td>1</td>
+  					<td>2Pac </td>
+  					<td> Ghetto Gospel</td>
+  					<td>4:25</td>
+  					<td><button type="button" id="btn0" class="btn btn-active btn-xs" onclick="loadDoc('2Pac@-@Ghetto@Gospel', '0')">Play</button><td>
+				</tr>
+				<tr>
+					<td>2</td>
+  					<td>7 Years</td>
+  					<td>Lukas Graham</td>
+  					<td>4:10</td>
+  					<td><button type="button" id="btn1" class="btn btn-active btn-xs" onclick="loadDoc('7@Years-Lukas@Graham', '1')">Play</button><td>
+				</tr>
+				<tr>
+					<td>3</td>
+  					<td>Cheap Thrills</td>
+  					<td>Sia</td>
+  					<td>3:30</td>
+  					<td><button type="button" id="btn2" class="btn btn-active btn-xs" onclick="loadDoc('Cheap@Thrills-Sia', '2')">Play</button><td>
+				</tr>
+				<tr>
+					<td>4</td>
+  					<td>Fade to Black</td>
+  					<td>Metallica</td>
+  					<td>7:0</td>
+  					<td><button type="button" id="btn3" class="btn btn-active btn-xs" onclick="loadDoc('Fade@to@Black-Metallica', '3')">Play</button><td>
+				</tr>
+				<tr>
+					<td>5</td>
+  					<td>Gun N Roses </td>
+  					<td> Knockin On Heavens Door</td>
+  					<td>5:42</td>
+  					<td><button type="button" id="btn4" class="btn btn-active btn-xs" onclick="loadDoc('Gun@N@Roses@-@Knockin@On@Heavens@Door', '4')">Play</button><td>
+				</tr>
+				<tr>
+					<td>6</td>
+  					<td>Here</td>
+  					<td>Alessia Cara</td>
+  					<td>3:30</td>
+  					<td><button type="button" id="btn5" class="btn btn-active btn-xs" onclick="loadDoc('Here-Alessia@Cara', '5')">Play</button><td>
+				</tr>
+            </tbody>
+        </table>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <p>EOF</p>
+    </div>
+</div>
+
+<script>
+    function loadDoc(str, btn) {
+        while(str.indexOf("@") !== -1)
+        {
+            console.log(str);
+            str = str.replace("@", " ");
+        }
+        var size = document.getElementById('musicTable').rows.length;
+        var xhttp = new XMLHttpRequest();
+        var buttonStr = "btn";
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("music").setAttribute("src", str+".mp3");
+                console.log(str+".mp3");
+                for(var i = 0; i < size-1; i++)
+                {
+                    document.getElementById(buttonStr+i).setAttribute("class", "btn btn-active btn-xs");
+                }
+                document.getElementById(buttonStr+btn).setAttribute("class", "btn btn-success btn-xs");
+                document.getElementById("songName").innerHTML = "Music Controls - "+ str;
+                play();
+            }
+        };
+        xhttp.open("POST", "", true);
+        xhttp.send();
+    }
+</script>
+
+<script>
+    function mediaEnded() {
+        console.log(document.getElementById("loopBtn").getAttribute("class"));
+        if(document.getElementById("loopBtn").getAttribute("class") == "btn btn-active") {
+            var currentSrc = document.getElementById("music").src;
+            var size = document.getElementById('musicTable').rows.length;
+            console.log("size=" + size);
+            console.log("source=" + currentSrc);
+            currentSrc = currentSrc.substring(currentSrc.lastIndexOf("/") + 1, currentSrc.lastIndexOf("."));
+            while (currentSrc.indexOf("%20") !== -1) {
+                currentSrc = currentSrc.replace("%20", "@");
+            }
+            var i;
+            for (i = 0; i < size - 1; i++) {
+                var a = document.getElementById("btn" + i).getAttribute("onclick");
+                console.log(currentSrc);
+                console.log(a);
+                if (a.indexOf(currentSrc) > -1) {
+                    console.log("HIT");
+                    break;
+                }
+            }
+            songsDone[i] = 1;
+            if(checkSongList())
+            {
+                if (document.getElementById("shuffleBtn").getAttribute("class") == "btn btn-success") {
+                    var rand;
+                    do{
+                        rand = Math.floor(Math.random() * size-1);
+                    }while((rand == i) || (songsDone[rand] == 1) || (rand < 0));
+                    i = rand;
+                }
+                else {
+                    i++;
+
+                    if (i > size - 2) {
+                        i = 0;
+                    }
+                }
+                console.log("i = " + i);
+                var song = document.getElementById("btn" + i).getAttribute("onclick");
+                console.log("song=" + song);
+                song = song.substring(song.indexOf("'") + 1, song.lastIndexOf("'"));
+                console.log("song=" + song);
+                while (song.indexOf("'") !== -1) {
+                    song = song.replace("'", "");
+                }
+                while (song.indexOf(" ") !== -1) {
+                    song = song.replace(" ", "");
+                }
+                console.log("song=" + song);
+                var songElements = [];
+                songElements = song.split(",");
+                console.log("sE0=" + songElements[0]);
+                console.log("sE1=" + songElements[1]);
+
+                loadDoc(songElements[0], songElements[1]);
+            }
+        }
+        else
+        {
+            console.log("LOOP");
+        }
+    }
+    function checkSongList()
+    {
+        var size = document.getElementById('musicTable').rows.length;
+        var total = 0;
+        var returnType = 1;
+        for(var i = 0; i < size-1; i++)
+        {
+            console.log("sD["+i+"]="+songsDone[i])
+            total+=songsDone[i];
+        }
+        if(total == size-1)
+        {
+            pause();
+            for(var i = 0; i < size-1; i++)
+            {
+                songsDone[i] = 0;
+            }
+            returnType = 0;
+        }
+        return returnType;
+    }
+</script>
+
+<script>
+    var myVar = setInterval(loadDuration, 1000);
+
+    function loadDuration() {
+        var audioTime = document.getElementById("music").currentTime;
+        var duration = document.getElementById("music").duration;
+        var seconds = Math.floor(audioTime);
+        var minutes = Math.floor(seconds/60);
+        seconds = seconds-(minutes*60);
+        if(seconds<10)
+        {
+            seconds="0"+seconds;
+        }
+        var percentage = ((audioTime/duration)*100);
+        document.getElementById("durationBar").setAttribute("style", "width:"+percentage+"%");
+        document.getElementById("durationBar").innerHTML = minutes+":"+seconds;
+    }
+</script>
+
+<script>
+    function musicSeek(direction) {
+        var curTime = document.getElementById("music").currentTime;
+        if(direction)
+        {
+            curTime += 10;
+            btnPress("seekBtn");
+            if(curTime > document.getElementById("music").duration)
+            {
+                curTime = document.getElementById("music").duration;
+            }
+        }
+        else
+        {
+            curTime -= 10
+            btnPress("rewindBtn");
+            if(curTime < 0)
+            {
+                curTime = 0;
+            }
+        }
+        document.getElementById("music").currentTime = curTime;
+    }
+</script>
+
+<script>
+    function shuffle(toggleShuffle)
+    {
+        document.getElementById("music").loop = 0;
+        document.getElementById("loopBtn").setAttribute("class", "btn btn-active");
+        document.getElementById("loopBtn").setAttribute("onclick", "loop(1)");
+        if(toggleShuffle) {
+            document.getElementById("shuffleBtn").setAttribute("class", "btn btn-success");
+            document.getElementById("shuffleBtn").setAttribute("onclick", "shuffle(0)");
+        }
+        else
+        {
+            document.getElementById("shuffleBtn").setAttribute("class", "btn btn-active");
+            document.getElementById("shuffleBtn").setAttribute("onclick", "shuffle(1)");
+        }
+
+    }
+    function loop(toggleLoop)
+    {
+        document.getElementById("music").loop = toggleLoop;
+        document.getElementById("shuffleBtn").setAttribute("class", "btn btn-active");
+        document.getElementById("shuffleBtn").setAttribute("onclick", "shuffle(1)");
+        if(toggleLoop)
+        {
+            document.getElementById("loopBtn").setAttribute("class", "btn btn-success");
+            document.getElementById("loopBtn").setAttribute("onclick", "loop(0)");
+        }
+        else
+        {
+            document.getElementById("loopBtn").setAttribute("class", "btn btn-active");
+            document.getElementById("loopBtn").setAttribute("onclick", "loop(1)");
+        }
+    }
+
+</script>
+
+<script>
+    function btnPress(id)
+    {
+        document.getElementById(id).setAttribute("class", "btn btn-success");
+        setTimeout(function(){changeClass(id);}, 50);
+    }
+</script>
+
+<script>
+    function changeClass(id)
+    {
+        document.getElementById(id).setAttribute("class", "btn btn-active");
+    }
+</script>
+
+<script>
+    function pause()
+    {
+        document.getElementById("music").pause();
+        document.getElementById("pauseBtn").setAttribute("class", "btn btn-danger");
+        document.getElementById("playBtn").setAttribute("class", "btn btn-active");
+    }
+</script>
+
+<script>
+    function play()
+    {
+        document.getElementById("music").play();
+        document.getElementById("pauseBtn").setAttribute("class", "btn btn-active");
+        document.getElementById("playBtn").setAttribute("class", "btn btn-success");
+    }
+</script>
+
+</body>
+</html>

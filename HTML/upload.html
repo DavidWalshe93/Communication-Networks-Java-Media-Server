@@ -1,0 +1,84 @@
+HTTP/1.1 200 OK
+HOST: localhost
+Content-Type: text/html
+Content-Length: 1000000
+Connection: keep-alive
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="jumbotron text-center">
+        <h1>Communication Network Webserver</h1>
+    </div>
+    <nav class="navbar navbar-inverse">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">WebSiteName</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li><a href="http://localhost:8777/link_index_IN.html">Home</a></li>
+                <li><a href="http://localhost:8777/link_gallery_Nature.html">Gallery</a></li>
+                <li><a href="http://localhost:8777/link_music_player.html">Music Player</a></li>
+                <li><a href="http://localhost:8777/link_theatre.html">Theatre</a></li>
+                <li class="active"><a href="http://localhost:8777/link_upload.html">Upload</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="http://localhost:8777/link_manage_account.html"><span class="glyphicon glyphicon-user"></span> Manage Account</a></li>
+                <li><a href="http://localhost:8777/link_index_OUT.html"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+    <form  method="POST" action="upload" enctype="multipart/form-data" target="http://localhost:8777/index" id="uploadForm" >
+        File:
+        <input type="file" id="uploadfiles" accept="audio/*,video/*,image/*"  name="file_upload" multiple="multiple" /> <br>
+        <input type="text" value="" name="filename" id="uploadFileName"/><br>
+        <input type="text" value="TextFiles" name="destination" id="uploadText" hidden/><br>
+        <input type="submit" value="Upload" name="upload" id="upload" />
+    </form>
+</div>
+<script>
+    var uploadfiles = document.querySelector('#uploadForm');
+    uploadfiles.addEventListener('submit', function () {
+        var files = this.files;
+        for(var i=0; i<files.length; i++) {
+            uploadFile(this.files[i]); // call the function to upload the file
+        }
+    }, false);
+
+    function uploadFile(file){
+        var url = 'server/index.php';
+        var xhr = new XMLHttpRequest();
+        var fd = new FormData();
+        xhr.open("POST", "", true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                // Every thing ok, file uploaded
+                console.log(xhr.responseText); // handle response.
+            }
+            else
+            {
+                console.log("Failed"); // handle response.
+            }
+        };
+        fd.append("upload_file", file);
+        xhr.send(fd);
+    }
+</script>
+</body>
+</html>

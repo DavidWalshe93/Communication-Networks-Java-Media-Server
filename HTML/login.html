@@ -1,0 +1,38 @@
+HTTP/1.1 200 OK
+HOST: localhost
+Content-Type: text/html
+Content-Length: 100000
+Connection: keep-alive
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="jumbotron">
+                <div class="text-center"><h1>Account Login</h1></div>
+                <div class="text-center"><p>Please Login to start using your account</p></div>
+            </div>
+            <form method="post" target="_self">
+                <div class="form-group">
+                    <label for="uname">Name:</label>
+                    <input type="text" class="form-control" id="uname" name="uname">
+                </div>
+                <div class="form-group">
+                    <label for="pwd1">Password:</label>
+                    <input type="password" class="form-control" id="pwd1" name="pwd1">
+                </div>
+                <button type="submit" class="btn btn-success">Submit</button>
+            </form>
+            <p>Don't have an account ? <a href="http://localhost:8777/link_create_account.html">Create One</a></p>
+        </div>
+    </body>
+</html>

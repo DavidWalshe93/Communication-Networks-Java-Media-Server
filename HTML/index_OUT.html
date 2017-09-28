@@ -1,0 +1,49 @@
+HTTP/1.1 200 OK
+HOST: localhost
+Content-Type: text/html
+Content-Length: 1000000
+Connection: keep-alive
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="jumbotron text-center">
+                <h1>Communication Network Webserver</h1>
+            </div>
+            <nav class="navbar navbar-inverse">
+                    <div class="navbar-header">
+                        <button type="button disabled" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">WebSiteName</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="myNavbar">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="http://localhost:8777/link_index_OUT.html">Home</a></li>
+                            <li class="disabled"><a href="http://localhost:8777/link_gallery_Nature.html">Gallery</a></li>
+                            <li class="disabled"><a href="#">Music Player</a></li>
+                            <li class="disabled"><a href="#">Theatre</a></li>
+                            <li class="disabled"><a href="#">Upload</a></li>
+                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="http://localhost:8777/link_create_account.html"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+                            <li><a href="http://localhost:8777/link_login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                        </ul>
+                    </div>
+            </nav>
+        </div>
+    </body>
+</html>
